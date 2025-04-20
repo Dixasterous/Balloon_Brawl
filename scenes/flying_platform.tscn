@@ -1,0 +1,71 @@
+[gd_scene load_steps=10 format=3 uid="uid://bohcv4tr414kq"]
+
+[ext_resource type="Texture2D" uid="uid://dgo4d0t2sr1j7" path="res://assets/flying_platform.png" id="1_gs2yp"]
+[ext_resource type="Script" uid="uid://cf86idyf4t4np" path="res://scripts/hit_box_component.gd" id="2_jk02a"]
+[ext_resource type="Script" uid="uid://b10ieu4wrw3qq" path="res://scripts/health_component.gd" id="3_ya7fj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iq150"]
+size = Vector2(32, 5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gs2yp"]
+atlas = ExtResource("1_gs2yp")
+region = Rect2(0, 0, 32, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jk02a"]
+atlas = ExtResource("1_gs2yp")
+region = Rect2(32, 0, 32, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ya7fj"]
+atlas = ExtResource("1_gs2yp")
+region = Rect2(64, 0, 32, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_escbq"]
+atlas = ExtResource("1_gs2yp")
+region = Rect2(96, 0, 32, 10)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dwr0i"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gs2yp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jk02a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ya7fj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_escbq")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="FlyingPlatform" type="CharacterBody2D"]
+scale = Vector2(4.5, 4.5)
+
+[node name="HitBoxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health_component") groups=["no_bullet"]]
+script = ExtResource("2_jk02a")
+health_component = NodePath("../HealthComponent")
+metadata/_custom_type_script = "uid://cf86idyf4t4np"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
+position = Vector2(0, -2.5)
+shape = SubResource("RectangleShape2D_iq150")
+
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("3_ya7fj")
+MAX_HEALTH = 10.0
+metadata/_custom_type_script = "uid://b10ieu4wrw3qq"
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2.5)
+shape = SubResource("RectangleShape2D_iq150")
+one_way_collision = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_dwr0i")
+autoplay = "default"
+frame_progress = 0.834401

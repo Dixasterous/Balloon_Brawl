@@ -1,0 +1,57 @@
+[gd_scene load_steps=10 format=3 uid="uid://yfe745y04s73"]
+
+[ext_resource type="Texture2D" uid="uid://cnm6kshdb4pi" path="res://assets/RedBallon.png" id="1_if21m"]
+[ext_resource type="Script" uid="uid://hmafkiupkc8w" path="res://scripts/red_balloon.gd" id="2_iu071"]
+[ext_resource type="Script" uid="uid://cf86idyf4t4np" path="res://scripts/hit_box_component.gd" id="2_udgnu"]
+[ext_resource type="Script" uid="uid://b10ieu4wrw3qq" path="res://scripts/health_component.gd" id="3_75kip"]
+[ext_resource type="AudioStream" uid="uid://8ubrxlhu77on" path="res://sounds/BalloonPop.wav" id="5_iu071"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jej6c"]
+atlas = ExtResource("1_if21m")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f1ej7"]
+atlas = ExtResource("1_if21m")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oprun"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jej6c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f1ej7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iu071"]
+radius = 7.36357
+
+[node name="RedBalloon" type="AnimatedSprite2D"]
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_oprun")
+autoplay = "default"
+script = ExtResource("2_iu071")
+
+[node name="HitBoxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+script = ExtResource("2_udgnu")
+health_component = NodePath("../HealthComponent")
+metadata/_custom_type_script = "uid://cf86idyf4t4np"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
+position = Vector2(0.333333, -8.33333)
+shape = SubResource("CircleShape2D_iu071")
+
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("3_75kip")
+MAX_HEALTH = 0.0
+metadata/_custom_type_script = "uid://b10ieu4wrw3qq"
+
+[node name="BalloonPop" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_iu071")
+
+[connection signal="hit_received" from="HitBoxComponent" to="." method="_on_hit_box_component_hit_received"]

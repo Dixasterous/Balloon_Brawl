@@ -1,0 +1,66 @@
+[gd_scene load_steps=11 format=3 uid="uid://bdu514ubhtp36"]
+
+[ext_resource type="Script" uid="uid://67vysvbj14xl" path="res://scripts/enemy.gd" id="1_5uy6h"]
+[ext_resource type="Texture2D" uid="uid://dr3ow8vmg7lvl" path="res://icon.svg" id="2_c4w8v"]
+[ext_resource type="Shader" uid="uid://ci0wv6sfuabrl" path="res://shaders/hitflash.gdshader" id="2_xwavj"]
+[ext_resource type="Script" uid="uid://b10ieu4wrw3qq" path="res://scripts/health_component.gd" id="3_xwavj"]
+[ext_resource type="Script" uid="uid://cf86idyf4t4np" path="res://scripts/hit_box_component.gd" id="4_nenq2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u5sy4"]
+size = Vector2(100, 100)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nenq2"]
+shader = ExtResource("2_xwavj")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p57ef"]
+size = Vector2(120, 117)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c4w8v"]
+bg_color = Color(1, 0.821723, 0.791818, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xwavj"]
+bg_color = Color(1, 0.14902, 0.196078, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("health_component", "hitbox", "enemy_spr")]
+script = ExtResource("1_5uy6h")
+health_component = NodePath("HealthComponent")
+hitbox = NodePath("HitBoxComponent")
+enemy_spr = NodePath("Enemy_Spr")
+
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("3_xwavj")
+metadata/_custom_type_script = "uid://b10ieu4wrw3qq"
+
+[node name="HitBoxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+script = ExtResource("4_nenq2")
+health_component = NodePath("../HealthComponent")
+metadata/_custom_type_script = "uid://cf86idyf4t4np"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
+shape = SubResource("RectangleShape2D_u5sy4")
+
+[node name="Enemy_Spr" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_nenq2")
+texture = ExtResource("2_c4w8v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_p57ef")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -50.0
+offset_top = -101.0
+offset_right = 50.0
+offset_bottom = -74.0
+theme_override_styles/background = SubResource("StyleBoxFlat_c4w8v")
+theme_override_styles/fill = SubResource("StyleBoxFlat_xwavj")
