@@ -6,6 +6,7 @@ extends Node2D
 @onready var laser_spawn_timer: Timer = $LaserSpawnTimer  
 @onready var score_timer: Timer = $ScoreTimer
 
+
 @export var bomb_enemy = preload("res://scenes/bomb_enemy.tscn")
 @export var laser_cannon = preload("res://scenes/laser_cannon.tscn")
 
@@ -32,6 +33,7 @@ func _ready():
     Global.last_fire_score = 0
     Global.player_health =0
     Global.player_max_health = 1000
+    Global.GameOver = false
    
     can_spawn_laser = false
     enemy_spawn_timer.wait_time = initial_wait_time
@@ -44,7 +46,9 @@ func _ready():
     laser_spawn_timer.start()
     
 
-
+func _process(delta: float) -> void:
+    if Global.GameOver == true:
+        get_tree().change_scene_to_file("res://scenes/game_over.tscn")
 
 func _unhandled_input(event: InputEvent) -> void:
     if event.is_action_pressed("esc"):

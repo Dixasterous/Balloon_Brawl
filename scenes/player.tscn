@@ -119,5 +119,6 @@ position = Vector2(26, 3)
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="GunHolder"]
 stream = ExtResource("12_3v2ag")
 
+[connection signal="dead" from="HealthComponent" to="." method="_on_health_component_dead"]
 [connection signal="bullet_spawn" from="GunHolder" to="GunHolder/Gun" method="_on_gun_holder_bullet_spawn"]
 [connection signal="timeout" from="GunHolder/fire_rate" to="GunHolder" method="_on_fire_rate_timeout"]

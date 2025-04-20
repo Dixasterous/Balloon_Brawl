@@ -129,3 +129,8 @@ func update_player_stats():
         
     gun_holder.updatestats(score_fire_threshold,min_fire_rate)
     
+    
+
+
+func _on_health_component_dead() -> void:
+    Global.GameOver = true

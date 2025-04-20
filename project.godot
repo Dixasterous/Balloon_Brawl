@@ -27,7 +27,7 @@ window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
+enabled=PackedStringArray()
 
 [global_group]
 
